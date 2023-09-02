@@ -1,0 +1,41 @@
+{
+  "name": "jwt-auth",
+  "version": "1.0.0",
+  "description": "User Authentication & Authorization with JWT",
+  "engines": {
+    "node": "14.17.3",
+    "npm": "6.14.13"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aadilmughal786/jwt-auth.git"
+  },
+  "keywords": [
+    "node",
+    "mongoDB",
+    "express",
+    "js",
+    "cors",
+    "auth",
+    "hashing",
+    "JWT",
+    "REST"
+  ],
+  "author": "Aadil Mugal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aadilmughal786/jwt-auth/issues"
+  },
+  "homepage": "https://github.com/aadilmughal786/jwt-auth#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.5.0"
+  }
+}
