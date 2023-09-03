@@ -1,11 +1,14 @@
 const dbConfig = require("./app/config/db.config");
+const clientConfig = require("./app/config/client.config");
+const serverConfig = require("./app/config/server.config");
+
 const express = require("express");
 const cors = require("cors");
 
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081",
+  origin: clientConfig.ORIGIN,
 };
 
 app.use(cors(corsOptions));
@@ -48,13 +51,10 @@ const initial = async () => {
 };
 
 db.mongoose
-  .connect(
-    `mongodb+srv://${dbConfig.USER}:${dbConfig.PASSWARD}@cluster0.u8ccoc4.mongodb.net/${dbConfig.DB}`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(dbConfig.URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
     initial();
@@ -70,7 +70,6 @@ app.get("/", (req, res) => {
 });
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}.`);
+app.listen(serverConfig.PORT, () => {
+  console.log(`Server is running at ${serverConfig.ORIGIN}.`);
 });
