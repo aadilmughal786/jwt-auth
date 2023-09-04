@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
-const db = require("../models/index.js");
-const User = db.user;
-const Role = db.role;
+const config = require("../config/auth.config");
+const { user: User, role: Role } = require("../models/index");
 
-const verifyToken = (req, res, next) => {
+// Verify the JWT token provided in the request headers
+exports.verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
   if (!token) {
@@ -13,16 +12,15 @@ const verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      return res.status(401).send({
-        message: "Unauthorized!",
-      });
+      return res.status(401).send({ message: "Unauthorized!" });
     }
     req.userId = decoded.id;
     next();
   });
 };
 
-const isAdmin = async (req, res, next) => {
+// Check if the user is an admin
+exports.isAdmin = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
 
@@ -42,7 +40,8 @@ const isAdmin = async (req, res, next) => {
   }
 };
 
-const isModerator = async (req, res, next) => {
+// Check if the user is a moderator
+exports.isModerator = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
 
@@ -61,10 +60,3 @@ const isModerator = async (req, res, next) => {
     return res.status(500).json({ message: err.message });
   }
 };
-
-const authJwt = {
-  verifyToken,
-  isAdmin,
-  isModerator,
-};
-module.exports = authJwt;
