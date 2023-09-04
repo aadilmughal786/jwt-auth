@@ -35,9 +35,13 @@ db.mongoose
   });
 
 // simple route
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
+
+// routes
+require("./app/routes/auth.routes")(app);
+require("./app/routes/user.routes")(app);
 
 // set port, listen for requests
 app.listen(serverConfig.PORT, () => {

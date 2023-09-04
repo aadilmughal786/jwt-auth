@@ -4,7 +4,7 @@ const db = require("../models/index.js");
 const User = db.user;
 const Role = db.role;
 
-verifyToken = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
   if (!token) {
@@ -22,66 +22,44 @@ verifyToken = (req, res, next) => {
   });
 };
 
-isAdmin = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
     }
 
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
+    const roles = await Role.find({ _id: { $in: user.roles } });
 
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "admin") {
-            next();
-            return;
-          }
-        }
+    if (!roles.some((role) => role.name === "admin")) {
+      return res.status(403).json({ message: "Require Admin Role!" });
+    }
 
-        res.status(403).send({ message: "Require Admin Role!" });
-        return;
-      }
-    );
-  });
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 };
 
-isModerator = (req, res, next) => {
-  User.findById(req.userId).exec((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
+const isModerator = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
     }
 
-    Role.find(
-      {
-        _id: { $in: user.roles },
-      },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
+    const roles = await Role.find({ _id: { $in: user.roles } });
 
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "moderator") {
-            next();
-            return;
-          }
-        }
+    if (!roles.some((role) => role.name === "moderator")) {
+      return res.status(403).json({ message: "Require Moderator Role!" });
+    }
 
-        res.status(403).send({ message: "Require Moderator Role!" });
-        return;
-      }
-    );
-  });
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 };
 
 const authJwt = {
