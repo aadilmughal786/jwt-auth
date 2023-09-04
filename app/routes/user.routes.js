@@ -1,28 +1,18 @@
+const express = require("express");
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
 
-module.exports = (app) => {
-  app.use((req, res, next) => {
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, Content-Type, Accept"
-    );
-    next();
-  });
+const router = express.Router();
 
-  app.get("/api/test/all", controller.allAccess);
+// Define authentication middleware for user roles
+const verifyToken = [authJwt.verifyToken];
+const isModerator = [authJwt.verifyToken, authJwt.isModerator];
+const isAdmin = [authJwt.verifyToken, authJwt.isAdmin];
 
-  app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
+// Define the user-related routes
+router.get("/all", controller.allAccess);
+router.get("/user", verifyToken, controller.userBoard);
+router.get("/mod", isModerator, controller.moderatorBoard);
+router.get("/admin", isAdmin, controller.adminBoard);
 
-  app.get(
-    "/api/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
-  );
-
-  app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  );
-};
+module.exports = router;

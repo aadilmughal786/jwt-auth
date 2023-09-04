@@ -1,26 +1,20 @@
 const db = require("../models");
 const Role = db.role;
 
-const rolesSeeding = async () => {
+const rolesToSeed = ["user", "moderator", "admin"];
+
+const seedRoles = async () => {
   try {
     const count = await Role.estimatedDocumentCount();
 
     if (count === 0) {
-      await Promise.all([
-        new Role({
-          name: "user",
-        }).save(),
+      const rolePromises = rolesToSeed.map((roleName) =>
+        new Role({ name: roleName }).save()
+      );
 
-        new Role({
-          name: "moderator",
-        }).save(),
+      await Promise.all(rolePromises);
 
-        new Role({
-          name: "admin",
-        }).save(),
-      ]);
-
-      console.log("Added 'user', 'moderator', and 'admin' to roles collection");
+      console.log("Roles collection populated with:", rolesToSeed.join(", "));
     } else {
       console.log("Roles collection already populated");
     }
@@ -29,4 +23,4 @@ const rolesSeeding = async () => {
   }
 };
 
-module.exports = rolesSeeding;
+module.exports = seedRoles;
