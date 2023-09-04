@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 
 const config = require("../config/auth.config");
 const db = require("../models");
+const { SALT_ROUNDS } = require("../constants");
 const User = db.user;
 const Role = db.role;
 
@@ -19,7 +20,7 @@ exports.signup = async (req, res) => {
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 8);
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     // Determine roles
     let userRoles = [];
