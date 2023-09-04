@@ -1,11 +1,9 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
-const db = require("../models/index");
-const User = db.user;
-const Role = db.role;
+const { user: User, role: Role } = require("../models/index");
 
 // Verify the JWT token provided in the request headers
-const verifyToken = (req, res, next) => {
+exports.verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
 
   if (!token) {
@@ -22,7 +20,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Check if the user is an admin
-const isAdmin = async (req, res, next) => {
+exports.isAdmin = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
 
@@ -43,7 +41,7 @@ const isAdmin = async (req, res, next) => {
 };
 
 // Check if the user is a moderator
-const isModerator = async (req, res, next) => {
+exports.isModerator = async (req, res, next) => {
   try {
     const user = await User.findById(req.userId);
 
@@ -61,10 +59,4 @@ const isModerator = async (req, res, next) => {
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-};
-
-module.exports = {
-  verifyToken,
-  isAdmin,
-  isModerator,
 };

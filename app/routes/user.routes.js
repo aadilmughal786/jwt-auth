@@ -1,4 +1,5 @@
 const express = require("express");
+
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
 

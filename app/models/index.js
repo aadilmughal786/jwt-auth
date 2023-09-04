@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { ROLES } = require("../constants");
 
 // Set the Mongoose promise implementation to use the global Promise object
 mongoose.Promise = global.Promise;
@@ -13,8 +12,5 @@ db.mongoose = mongoose;
 // Import and assign the user and role models to the db object
 db.user = require("./user.model");
 db.role = require("./role.model");
-
-// Define a constant array for roles that can be used throughout the application
-db.ROLES = ROLES;
 
 module.exports = db;
