@@ -5,11 +5,14 @@ const compression = require("compression");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 
+const authRoutes = require("./app/routes/auth.routes");
 const clientConfig = require("./app/config/client.config");
 const db = require("./app/models");
 const dbConfig = require("./app/config/db.config");
 const rolesSeeding = require("./app/seed/role.seed");
 const serverConfig = require("./app/config/server.config");
+const userRoutes = require("./app/routes/user.routes");
+
 
 const app = express();
 
@@ -56,12 +59,12 @@ db.mongoose
 
 // Define a root route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to your production-ready application." });
+  res.json({ message: "Welcome to our production-ready application." });
 });
 
-// Load routes and controllers
-require("./app/routes/auth.routes")(app);
-require("./app/routes/user.routes")(app);
+// Mount the routes
+app.use("/api/auth", authRoutes);
+app.use("/api/test", userRoutes);
 
 // Set the port based on environment or configuration
 const PORT = process.env.PORT || serverConfig.PORT;
