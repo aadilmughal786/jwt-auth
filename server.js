@@ -28,8 +28,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Use morgan with the custom token
-app.use(morgan(":method :url :colored-status :response-time ms"));
+// Use morgan with the custom tokens
+app.use(
+  morgan(":method :url :colored-status :response-time ms - :colored-ip - :user-agent")
+);
 
 // Enable rate limiting to protect against abuse
 const limiter = rateLimit({

@@ -17,4 +17,14 @@ morgan.token("colored-status", (req, res) => {
   return chalk[color](status);
 });
 
+morgan.token("colored-ip", (req) => {
+  const ip = req.ip; // IP address of the client
+  const color = "cyan"; // Color for IP address (e.g., cyan)
+  return chalk[color](ip);
+});
+
+morgan.token("user-agent", (req) => {
+  return req.get("user-agent"); // User-Agent header from the request
+});
+
 module.exports = morgan;
