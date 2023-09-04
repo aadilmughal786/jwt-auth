@@ -1,18 +1,18 @@
+const chalk = require("chalk");
+const compression = require("compression");
 const cors = require("cors");
 const express = require("express");
 const helmet = require("helmet");
-const compression = require("compression");
-const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 
 const authRoutes = require("./app/routes/auth.routes");
 const clientConfig = require("./app/config/client.config");
 const db = require("./app/models");
 const dbConfig = require("./app/config/db.config");
+const morgan = require("./morgan-config"); // Import the custom Morgan configuration
 const rolesSeeding = require("./app/seed/role.seed");
 const serverConfig = require("./app/config/server.config");
 const userRoutes = require("./app/routes/user.routes");
-
 
 const app = express();
 
@@ -28,8 +28,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Enable request logging (you can customize the format)
-app.use(morgan("combined"));
+// Use morgan with the custom tokens
+app.use(
+  morgan(":method :url :colored-status :response-time ms - :colored-ip - :user-agent")
+);
 
 // Enable rate limiting to protect against abuse
 const limiter = rateLimit({
