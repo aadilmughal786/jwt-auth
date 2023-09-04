@@ -1,49 +1,72 @@
-const dbConfig = require("./app/config/db.config");
-const clientConfig = require("./app/config/client.config");
-const serverConfig = require("./app/config/server.config");
-const db = require("./app/models");
-const express = require("express");
-const rolesSeeding = require("./app/seed/role.seed");
 const cors = require("cors");
+const express = require("express");
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
+const rateLimit = require("express-rate-limit");
+
+const clientConfig = require("./app/config/client.config");
+const db = require("./app/models");
+const dbConfig = require("./app/config/db.config");
+const rolesSeeding = require("./app/seed/role.seed");
+const serverConfig = require("./app/config/server.config");
 
 const app = express();
 
-var corsOptions = {
+// Enable security headers with helmet
+app.use(helmet());
+
+// Enable gzip compression for responses
+app.use(compression());
+
+// Set up CORS for specific origins
+const corsOptions = {
   origin: clientConfig.ORIGIN,
 };
-
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
-app.use(express.json());
+// Enable request logging (you can customize the format)
+app.use(morgan("combined"));
 
-// parse requests of content-type - application/x-www-form-urlencoded
+// Enable rate limiting to protect against abuse
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
+// Parse JSON and URL-encoded requests
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Connect to MongoDB and seed roles
 db.mongoose
   .connect(dbConfig.URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Successfully connect to MongoDB.");
+    console.log("Successfully connected to MongoDB.");
     rolesSeeding();
   })
   .catch((err) => {
     console.error("Connection error", err);
-    process.exit();
+    process.exit(1); // Exit the application on database connection failure
   });
 
-// simple route
-app.get("/api", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+// Define a root route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to your production-ready application." });
 });
 
-// routes
+// Load routes and controllers
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 
-// set port, listen for requests
-app.listen(serverConfig.PORT, () => {
-  console.log(`Server is running at ${serverConfig.ORIGIN}.`);
+// Set the port based on environment or configuration
+const PORT = process.env.PORT || serverConfig.PORT;
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
 });
