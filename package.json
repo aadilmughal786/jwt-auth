@@ -8,7 +8,8 @@
   },
   "main": "server.js",
   "scripts": {
-    "start:server": "nodemon server.js"
+    "start:server": "nodemon server.js",
+    "format:prettier": "prettier -w ."
   },
   "repository": {
     "type": "git",
@@ -43,5 +44,8 @@
     "mongoose": "^7.5.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.3"
   }
 }

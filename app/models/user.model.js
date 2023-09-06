@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -18,11 +18,11 @@ const userSchema = new mongoose.Schema({
   roles: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Role",
+      ref: 'Role',
     },
   ],
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

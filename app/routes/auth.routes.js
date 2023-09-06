@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 
-const { verifySignUp } = require("../middlewares");
-const controller = require("../controllers/auth.controller");
+const {verifySignUp} = require('../middlewares');
+const controller = require('../controllers/auth.controller');
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const validateSignup = [
 ];
 
 // Define the authentication routes
-router.post("/signup", validateSignup, controller.signup);
-router.post("/signin", controller.signin);
+router.post('/signup', validateSignup, controller.signup);
+router.post('/signin', controller.signin);
 
 module.exports = router;
