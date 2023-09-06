@@ -9,7 +9,9 @@
   "main": "server.js",
   "scripts": {
     "start:server": "nodemon server.js",
-    "format:prettier": "prettier -w ."
+    "format:prettier": "prettier -w .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "repository": {
     "type": "git",
@@ -46,6 +48,7 @@
     "nodemon": "^3.0.1"
   },
   "devDependencies": {
+    "eslint": "^8.48.0",
     "prettier": "^3.0.3"
   }
 }
