@@ -1,33 +1,33 @@
-const { ROLES } = require("../constants");
-const { user: User } = require("../models");
+const {ROLES} = require('../constants');
+const {user: User} = require('../models');
 
 // Check if the username is already in use
 exports.checkDuplicateUsername = async (req, res, next) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({username: req.body.username});
     if (user) {
       return res
         .status(400)
-        .json({ message: "Failed! Username is already in use!" });
+        .json({message: 'Failed! Username is already in use!'});
     }
     next();
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({message: error.message});
   }
 };
 
 // Check if the email is already in use
 exports.checkDuplicateEmail = async (req, res, next) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({email: req.body.email});
     if (user) {
       return res
         .status(400)
-        .json({ message: "Failed! Email is already in use!" });
+        .json({message: 'Failed! Email is already in use!'});
     }
     next();
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({message: error.message});
   }
 };
 
