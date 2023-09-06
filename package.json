@@ -8,7 +8,8 @@
   },
   "main": "server.js",
   "scripts": {
-    "start:server": "nodemon server.js"
+    "start:server": "nodemon server.js",
+    "commitlint": "commitlint --edit"
   },
   "repository": {
     "type": "git",
@@ -43,5 +44,10 @@
     "mongoose": "^7.5.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "husky": "^8.0.3"
   }
 }
