@@ -9,7 +9,7 @@
   "main": "server.js",
   "scripts": {
     "start:server": "nodemon server.js",
-    "lint:precommit": "lint-staged",
+    "lint:stage": "lint-staged",
     "lint:commit": "commitlint --edit",
     "format:prettier": "prettier -w .",
     "lint": "eslint .",
