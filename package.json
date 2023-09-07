@@ -10,6 +10,8 @@
   "scripts": {
     "start:server": "nodemon server.js",
     "format:prettier": "prettier --write .",
+    "lint:stage": "lint-staged",
+    "lint:commit": "commitlint --edit",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
@@ -48,7 +50,11 @@
     "nodemon": "^3.0.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
     "eslint": "^8.48.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
   }
 }
