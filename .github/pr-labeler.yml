@@ -59,3 +59,9 @@
       directory: ''
     - path: '.env'
       directory: ''
+
+# Apply a label when anything inside the .github/workflows directory changes
+
+- name: workflow
+  conditions:
+    - '.github/workflows/**'
