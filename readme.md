@@ -15,20 +15,17 @@ This project demonstrates User Authentication (Registration, Login) & Authorizat
 
 These routes outline the HTTP methods, URLs, actions, and authorization requirements for the Node.js & MongoDB User Authentication & Authorization project.
 
+| **Authentication Routes** | **Description**    |
+| ------------------------- | ------------------ |
+| `POST /api/auth/signup`   | User registration. |
+| `POST /api/auth/signin`   | User login.        |
 
-| **Authentication Routes**          | **Description**                                           |
-| --------------------------------- | --------------------------------------------------------- |
-| `POST /api/auth/signup`           | User registration.                                       |
-| `POST /api/auth/signin`           | User login.                                              |
-
-| **Authorization Routes**           | **Description**                                           |
-| ---------------------------------- | --------------------------------------------------------- |
-| `GET /api/test/all`               | Accessible to all users, no specific role required.      |
-| `GET /api/test/user`              | Accessible to logged-in users (user/moderator/admin).    |
-| `GET /api/test/mod`               | Accessible to users with the "moderator" role.           |
-| `GET /api/test/admin`             | Accessible to users with the "admin" role.               |
-
-
+| **Authorization Routes** | **Description**                                       |
+| ------------------------ | ----------------------------------------------------- |
+| `GET /api/test/all`      | Accessible to all users, no specific role required.   |
+| `GET /api/test/user`     | Accessible to logged-in users (user/moderator/admin). |
+| `GET /api/test/mod`      | Accessible to users with the "moderator" role.        |
+| `GET /api/test/admin`    | Accessible to users with the "admin" role.            |
 
 # Technologies and Terms
 

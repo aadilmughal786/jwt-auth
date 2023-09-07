@@ -27,4 +27,3 @@ A JWT consists of three parts: Header, Payload, and Signature, which are combine
 6. **Access Granted**: If the JWT is valid, the server grants access to the requested resource, allowing the client to access protected content or perform specific actions.
 
 Here's a simplified diagram illustrating the JWT flow:
-

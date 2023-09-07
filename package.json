@@ -9,7 +9,10 @@
   "main": "server.js",
   "scripts": {
     "start:server": "nodemon server.js",
-    "commitlint": "commitlint --edit"
+    "commitlint": "commitlint --edit",
+    "format:prettier": "prettier -w .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "repository": {
     "type": "git",
@@ -48,6 +51,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3"
   }
 }

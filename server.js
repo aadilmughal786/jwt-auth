@@ -1,18 +1,17 @@
-const chalk = require("chalk");
-const compression = require("compression");
-const cors = require("cors");
-const express = require("express");
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+const compression = require('compression');
+const cors = require('cors');
+const express = require('express');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
-const authRoutes = require("./app/routes/auth.routes");
-const clientConfig = require("./app/config/client.config");
-const db = require("./app/models");
-const dbConfig = require("./app/config/db.config");
-const morgan = require("./morgan-config"); // Import the custom Morgan configuration
-const rolesSeeding = require("./app/seed/role.seed");
-const serverConfig = require("./app/config/server.config");
-const userRoutes = require("./app/routes/user.routes");
+const authRoutes = require('./app/routes/auth.routes');
+const clientConfig = require('./app/config/client.config');
+const db = require('./app/models');
+const dbConfig = require('./app/config/db.config');
+const morgan = require('./morgan-config'); // Import the custom Morgan configuration
+const rolesSeeding = require('./app/seed/role.seed');
+const serverConfig = require('./app/config/server.config');
+const userRoutes = require('./app/routes/user.routes');
 
 const app = express();
 
@@ -30,7 +29,9 @@ app.use(cors(corsOptions));
 
 // Use morgan with the custom tokens
 app.use(
-  morgan(":method :url :colored-status :response-time ms - :colored-ip - :user-agent")
+  morgan(
+    ':method :url :colored-status :response-time ms - :colored-ip - :user-agent'
+  )
 );
 
 // Enable rate limiting to protect against abuse
@@ -42,7 +43,7 @@ app.use(limiter);
 
 // Parse JSON and URL-encoded requests
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 // Connect to MongoDB and seed roles
 db.mongoose
@@ -51,22 +52,22 @@ db.mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Successfully connected to MongoDB.");
+    console.log('Successfully connected to MongoDB.');
     rolesSeeding();
   })
   .catch((err) => {
-    console.error("Connection error", err);
+    console.error('Connection error', err);
     process.exit(1); // Exit the application on database connection failure
   });
 
 // Define a root route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to our production-ready application." });
+app.get('/', (req, res) => {
+  res.json({message: 'Welcome to our production-ready application.'});
 });
 
 // Mount the routes
-app.use("/api/auth", authRoutes);
-app.use("/api/test", userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/test', userRoutes);
 
 // Set the port based on environment or configuration
 const PORT = process.env.PORT || serverConfig.PORT;
