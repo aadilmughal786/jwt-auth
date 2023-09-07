@@ -1,0 +1,24 @@
+{
+  "editor.tabSize": 2, // Set the default tab size to 2 spaces
+  "editor.insertSpaces": true, // Use spaces for indentation
+  "editor.wordWrap": "off", // Enable word wrap
+
+  "editor.renderWhitespace": "all", // Render all whitespace characters
+  "editor.renderControlCharacters": true, // Render control characters
+
+  "editor.codeLens": false, // Disable code lens (e.g., references, tests)
+  "editor.minimap.enabled": false, // Disable the minimap
+  "editor.snippetSuggestions": "top", // Show user snippets above other suggestions
+
+  "editor.rulers": [80], // Add a ruler at column 80 for code width
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Set the default formatter (e.g., Prettier)
+  "prettier.printWidth": 80, // Specify line width for Prettier
+  "prettier.singleQuote": true, // Use single quotes instead of double quotes
+  "prettier.trailingComma": "all", // Add trailing commas wherever possible
+
+  "files.exclude": {
+    "**/.git": true, // Exclude .git folder from file explorer
+    "**/.DS_Store": true, // Exclude .DS_Store files on macOS
+    "node_modules": true // Exclude node_modules folder
+  }
+}

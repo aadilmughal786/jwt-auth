@@ -9,7 +9,7 @@
   "main": "server.js",
   "scripts": {
     "start:server": "nodemon server.js",
-    "format:prettier": "prettier -w .",
+    "format:prettier": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
   },
