@@ -96,7 +96,7 @@ This project utilizes various technologies and terms to implement user authentic
 - **Secure Password Storage**: Techniques and best practices for securely storing user passwords in a way that protects them from unauthorized access. Bcrypt.js is used for secure password hashing.
 
 
-#### Environment Variables
+## Environment Variables
 
 This project uses config folder to configure its behavior. To set up the necessary config variables, follow these steps:
 
