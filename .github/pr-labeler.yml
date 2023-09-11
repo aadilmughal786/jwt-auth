@@ -1,0 +1,67 @@
+# .github/labeler.yml
+
+# Define label rules for your repository.
+# Labels can be assigned to issues or pull requests based on criteria defined here.
+
+# Apply labels based on the folder names within the 'app' directory
+
+- name: constants
+  conditions:
+    - 'app/constants/**'
+
+- name: controllers
+  conditions:
+    - 'app/controllers/**'
+
+- name: middlewares
+  conditions:
+    - 'app/middlewares/**'
+
+- name: models
+  conditions:
+    - 'app/models/**'
+
+- name: routes
+  conditions:
+    - 'app/routes/**'
+
+- name: seed
+  conditions:
+    - 'app/seed/**'
+
+# Apply labels based on file extensions, but only for files in the root directory
+
+- name: doc
+  conditions:
+    - path: '*.md'
+      directory: ''
+
+- name: npm
+  conditions:
+    - path: 'package-lock.json'
+      directory: ''
+    - path: 'package.json'
+      directory: ''
+
+- name: config
+  conditions:
+    - path: '*.config'
+      directory: ''
+    - path: '*.conf'
+      directory: ''
+    - path: '*.cfg'
+      directory: ''
+    - path: '*.json'
+      directory: ''
+    - path: '*.yml'
+      directory: ''
+    - path: '*.yaml'
+      directory: ''
+    - path: '.env'
+      directory: ''
+
+# Apply a label when anything inside the .github/workflows directory changes
+
+- name: workflow
+  conditions:
+    - '.github/workflows/**'

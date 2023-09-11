@@ -1,3 +1,19 @@
-/node_modules
+# Node.js
+node_modules/
 
+# config file
 /app/config
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Optional eslint cache
+.eslintcache
+
+# Optional npm cache directory
+.npm
+
+# Logs
+logs/
+*.log
+npm-debug.log*
