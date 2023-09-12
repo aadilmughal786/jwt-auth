@@ -102,4 +102,5 @@ This project uses config folder to configure its behavior. To set up the necessa
 
 1. Locate the `config.sample` folder in the project directory.
 
-2. Duplicate the `config.sample` folder and rename the copy to `config`.
+2. Duplicate the `config.sample` folder and rename the copy to `config`
+ use command from the root directory `cp -R app/config.sample/ app/config/`
