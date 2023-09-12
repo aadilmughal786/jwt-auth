@@ -1,3 +1,0 @@
-{
-  "coveragePathIgnorePatterns": ["app/server.js", "tests"]
-}
