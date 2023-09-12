@@ -4,14 +4,14 @@ const express = require('express');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-const authRoutes = require('./app/routes/auth.routes');
-const clientConfig = require('./app/config/client.config');
-const db = require('./app/models');
-const dbConfig = require('./app/config/db.config');
-const morgan = require('./morgan-config'); // Import the custom Morgan configuration
-const rolesSeeding = require('./app/seed/role.seed');
-const serverConfig = require('./app/config/server.config');
-const userRoutes = require('./app/routes/user.routes');
+const authRoutes = require('./routes/auth.routes');
+const clientConfig = require('./config/client.config');
+const db = require('./models');
+const dbConfig = require('./config/db.config');
+const morgan = require('../morgan-config'); // Import the custom Morgan configuration
+const rolesSeeding = require('./seed/role.seed');
+const serverConfig = require('./config/server.config');
+const userRoutes = require('./routes/user.routes');
 
 const app = express();
 
