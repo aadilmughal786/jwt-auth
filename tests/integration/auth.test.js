@@ -2,7 +2,7 @@ const request = require('supertest');
 const {faker} = require('@faker-js/faker');
 const httpStatus = require('http-status');
 const app = require('../../app/server');
-const setupTestDB = require('../utils/setup-db.test');
+const setupTestDB = require('../utils/setup-db.util');
 
 setupTestDB();
 
