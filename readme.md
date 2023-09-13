@@ -1,6 +1,7 @@
 # Node.js & MongoDB User Authentication & Authorization
 
-![Banner](./assets/jwt-auth-banner.png)
+<img src="./assets/jwt-auth-banner.png" alt="banner" width="100%" height="auto">
+
 ## Overview
 
 This project demonstrates User Authentication (Registration, Login) & Authorization using JSON Web Tokens (JWT) in a Node.js and MongoDB application. Key features include user registration, role-based authorization, and access to protected resources.
