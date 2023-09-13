@@ -14,7 +14,7 @@
     "format:prettier": "prettier -w .",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "test:all": "jest --watchAll",
+    "test:all": "jest",
     "coverage": "jest -i --coverage"
   },
   "repository": {
