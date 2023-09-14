@@ -8,7 +8,7 @@
   },
   "main": "server.js",
   "scripts": {
-    "start:server": "nodemon ./app/server.js",
+    "start:server": "nodemon ./app/app.js",
     "lint:stage": "lint-staged",
     "lint:commit": "commitlint --edit",
     "format:prettier": "prettier -w .",

@@ -10,25 +10,24 @@ const db = require('./models');
 const dbConfig = require('./config/db.config');
 const morgan = require('../morgan-config'); // Import the custom Morgan configuration
 const rolesSeeding = require('./seed/role.seed');
-const serverConfig = require('./config/server.config');
 const userRoutes = require('./routes/user.routes');
 
-const app = express();
+const server = express();
 
 // Enable security headers with helmet
-app.use(helmet());
+server.use(helmet());
 
 // Enable gzip compression for responses
-app.use(compression());
+server.use(compression());
 
 // Set up CORS for specific origins
 const corsOptions = {
   origin: clientConfig.ORIGIN,
 };
-app.use(cors(corsOptions));
+server.use(cors(corsOptions));
 
 // Use morgan with the custom tokens
-app.use(
+server.use(
   morgan(
     ':method :url :colored-status :response-time ms - :colored-ip - :user-agent'
   )
@@ -39,11 +38,11 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
 });
-app.use(limiter);
+server.use(limiter);
 
 // Parse JSON and URL-encoded requests
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+server.use(express.json());
+server.use(express.urlencoded({extended: true}));
 
 // Connect to MongoDB and seed roles
 db.mongoose
@@ -61,20 +60,12 @@ db.mongoose
   });
 
 // Define a root route
-app.get('/', (req, res) => {
+server.get('/', (req, res) => {
   res.json({message: 'Welcome to our production-ready application.'});
 });
 
 // Mount the routes
-app.use('/api/auth', authRoutes);
-app.use('/api/test', userRoutes);
+server.use('/api/auth', authRoutes);
+server.use('/api/test', userRoutes);
 
-// Set the port based on environment or configuration
-const PORT = process.env.PORT || serverConfig.PORT;
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
-
-module.exports = app;
+module.exports = server;
