@@ -12,19 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Git checkout
-      uses: actions/checkout@v3
+      - name: Git checkout
+        uses: actions/checkout@v3
 
-    - name: Use Node.js
-      uses: actions/setup-node@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
 
-    - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.10.0
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
 
-    - run: npm install
+      - run: npm install
 
-    - run: cp -R app/config.sample/ app/config/
+      - run: cp -R app/config.sample/ app/config/
 
-    - run: npm run test:all
-      env:
-        CI: true
+      - run: npm run test:all
+        env:
+          CI: true
