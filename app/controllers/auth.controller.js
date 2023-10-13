@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-
 const config = require('../config/auth.config');
 const db = require('../models');
 const {SALT_ROUNDS} = require('../constants');
+const {accessToken, refreshToken} = require('../middlewares/auth-jwt');
 
 const User = db.user;
 const Role = db.role;
@@ -72,23 +72,44 @@ exports.signin = async (req, res) => {
         .json({accessToken: null, message: 'Invalid Password!'});
     }
 
-    const token = jwt.sign({id: user.id}, config.secret, {
-      algorithm: 'HS256',
-      expiresIn: 24 * 60 * 60, // 24 hours
-    });
+    const access_Token = await accessToken({id: user._id});
+    const refresh_Token = await refreshToken({id: user._id});
 
     const authorities = user.roles.map(
       (role) => 'ROLE_' + role.name.toUpperCase()
     );
-
     return res.status(200).json({
       id: user._id,
       username: user.username,
       email: user.email,
       roles: authorities,
-      accessToken: token,
+      accessToken: access_Token,
+      refreshToken: refresh_Token,
     });
   } catch (err) {
     return res.status(500).json({message: err.message});
+  }
+};
+
+exports.userRefresh = async (req, res) => {
+  try {
+    if (!req?.payload?.id) {
+      console.log('JWT Refresh Token error : Missing Payload Data');
+    }
+    // Check if user exist in Collection
+    const getUser = await User.findOne({
+      _id: req.payload.id,
+    });
+    if (!getUser) {
+      res.status(500).message('User not found');
+    }
+    const access_Token = await accessToken({id: getUser._id});
+    const refresh_Token = await refreshToken({id: getUser._id});
+    return res.status(200).json({
+      accessToken: access_Token,
+      refreshToken: refresh_Token,
+    });
+  } catch (error) {
+    res.status(500).json({message: error.message});
   }
 };

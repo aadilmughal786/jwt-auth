@@ -2,21 +2,96 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/auth.config');
 const {user: User, role: Role} = require('../models/index');
 
-// Verify the JWT token provided in the request headers
-exports.verifyToken = (req, res, next) => {
-  let token = req.headers['x-access-token'];
-
-  if (!token) {
-    return res.status(403).send({message: 'No token provided!'});
-  }
-
-  jwt.verify(token, config.secret, (err, decoded) => {
-    if (err) {
-      return res.status(401).send({message: 'Unauthorized!'});
+exports.accessToken = async (payloadData) => {
+  try {
+    const JWT_ACCESS_TOKEN_SECRET = config.JWT_ACCESS_TOKEN_SECRET;
+    if (!JWT_ACCESS_TOKEN_SECRET) {
+      console.log(`Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]`);
+      return null;
     }
-    req.userId = decoded.id;
-    next();
-  });
+    const jwtSecretKey = JWT_ACCESS_TOKEN_SECRET;
+    const jwtConfigOptions = {
+      expiresIn: config.JWT_ACCESS_EXPIRES_IN,
+      algorithm: config.ALGORITHM,
+    };
+    const jwtToken = await jwt.sign(
+      payloadData,
+      jwtSecretKey,
+      jwtConfigOptions
+    );
+    return jwtToken;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.refreshToken = async (payloadData) => {
+  try {
+    const JWT_REFRESH_TOKEN_SECRET = config.JWT_REFRESH_TOKEN_SECRET;
+    if (!JWT_REFRESH_TOKEN_SECRET) {
+      console.log(`Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]`);
+      return null;
+    }
+    const jwtSecretKey = JWT_REFRESH_TOKEN_SECRET;
+    const jwtConfigOptions = {
+      expiresIn: config.JWT_REFRESH_EXPIRES_IN,
+      algorithm: config.ALGORITHM,
+    };
+    const refreshToken = await jwt.sign(
+      payloadData,
+      jwtSecretKey,
+      jwtConfigOptions
+    );
+    return refreshToken;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Verify the JWT token provided in the request headers
+exports.verifyAccessToken = (req, res, next) => {
+  try {
+    const accessTokenHeader = req.get('access_Token');
+    if (!accessTokenHeader) {
+      return res.status(403).send({message: 'No token provided!'});
+    }
+    const JWT_ACCESS_TOKEN_SECRET = config.JWT_ACCESS_TOKEN_SECRET;
+    if (!JWT_ACCESS_TOKEN_SECRET) {
+      console.log(`Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]`);
+    }
+    jwt.verify(accessTokenHeader, JWT_ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({message: 'Unauthorized!'});
+      }
+      req.userId = decoded.id;
+      next();
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Verify the JWT refresh token provided in the request headers
+exports.verifyRefreshToken = (req, res, next) => {
+  try {
+    const refreshTokenHeader = req.get('refresh_Token');
+    if (!refreshToken) {
+      console.log(`Unable to process Constant [refreshToken]`);
+    }
+    const JWT_REFRESH_TOKEN_SECRET = config.JWT_REFRESH_TOKEN_SECRET;
+    if (!JWT_REFRESH_TOKEN_SECRET) {
+      console.log('Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]');
+    }
+    jwt.verify(refreshTokenHeader, JWT_REFRESH_TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        return res.status(401).send({message: 'Unauthorized!'});
+      }
+      req.payload = payload;
+      next();
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // Check if the user is an admin
