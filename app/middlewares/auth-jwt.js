@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config/auth.config');
+const config = require('../config.sample/auth.config');
 const {user: User, role: Role} = require('../models/index');
 
 exports.accessToken = async (payloadData) => {
   try {
     const JWT_ACCESS_TOKEN_SECRET = config.JWT_ACCESS_TOKEN_SECRET;
     if (!JWT_ACCESS_TOKEN_SECRET) {
-      console.log(`Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]`);
+      console.log('Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]');
       return null;
     }
     const jwtSecretKey = JWT_ACCESS_TOKEN_SECRET;
@@ -29,7 +29,7 @@ exports.refreshToken = async (payloadData) => {
   try {
     const JWT_REFRESH_TOKEN_SECRET = config.JWT_REFRESH_TOKEN_SECRET;
     if (!JWT_REFRESH_TOKEN_SECRET) {
-      console.log(`Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]`);
+      console.log('Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]');
       return null;
     }
     const jwtSecretKey = JWT_REFRESH_TOKEN_SECRET;
@@ -57,7 +57,7 @@ exports.verifyAccessToken = (req, res, next) => {
     }
     const JWT_ACCESS_TOKEN_SECRET = config.JWT_ACCESS_TOKEN_SECRET;
     if (!JWT_ACCESS_TOKEN_SECRET) {
-      console.log(`Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]`);
+      console.log('Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]');
     }
     jwt.verify(accessTokenHeader, JWT_ACCESS_TOKEN_SECRET, (err, decoded) => {
       if (err) {
@@ -75,14 +75,14 @@ exports.verifyAccessToken = (req, res, next) => {
 exports.verifyRefreshToken = (req, res, next) => {
   try {
     const refreshTokenHeader = req.get('refresh_Token');
-    if (!refreshToken) {
-      console.log(`Unable to process Constant [refreshToken]`);
+    if (!refreshTokenHeader) {
+      console.log('Unable to process Constant [refreshTokenHeader]');
     }
     const JWT_REFRESH_TOKEN_SECRET = config.JWT_REFRESH_TOKEN_SECRET;
     if (!JWT_REFRESH_TOKEN_SECRET) {
       console.log('Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]');
     }
-    jwt.verify(refreshTokenHeader, JWT_REFRESH_TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(refreshTokenHeader, JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
       if (err) {
         return res.status(401).send({message: 'Unauthorized!'});
       }
