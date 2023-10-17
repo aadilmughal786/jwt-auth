@@ -6,7 +6,7 @@ exports.accessToken = async (payloadData) => {
   try {
     const JWT_ACCESS_TOKEN_SECRET = config.JWT_ACCESS_TOKEN_SECRET;
     if (!JWT_ACCESS_TOKEN_SECRET) {
-      console.log('Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]');
+      console.error('Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]');
       return null;
     }
     const jwtSecretKey = JWT_ACCESS_TOKEN_SECRET;
@@ -21,7 +21,7 @@ exports.accessToken = async (payloadData) => {
     );
     return jwtToken;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -29,7 +29,7 @@ exports.refreshToken = async (payloadData) => {
   try {
     const JWT_REFRESH_TOKEN_SECRET = config.JWT_REFRESH_TOKEN_SECRET;
     if (!JWT_REFRESH_TOKEN_SECRET) {
-      console.log('Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]');
+      console.error('Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]');
       return null;
     }
     const jwtSecretKey = JWT_REFRESH_TOKEN_SECRET;
@@ -44,7 +44,7 @@ exports.refreshToken = async (payloadData) => {
     );
     return refreshToken;
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -55,19 +55,19 @@ exports.verifyAccessToken = (req, res, next) => {
     if (!accessTokenHeader) {
       return res.status(403).send({message: 'No token provided!'});
     }
-    const JWT_ACCESS_TOKEN_SECRET = config.JWT_ACCESS_TOKEN_SECRET;
-    if (!JWT_ACCESS_TOKEN_SECRET) {
-      console.log('Unable to process Constant [JWT_ACCESS_TOKEN_SECRET]');
-    }
-    jwt.verify(accessTokenHeader, JWT_ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(401).send({message: 'Unauthorized!'});
+    jwt.verify(
+      accessTokenHeader,
+      config.JWT_ACCESS_TOKEN_SECRET,
+      (err, decoded) => {
+        if (err) {
+          return res.status(401).send({message: 'Unauthorized!'});
+        }
+        req.userId = decoded.id;
+        next();
       }
-      req.userId = decoded.id;
-      next();
-    });
+    );
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -78,17 +78,17 @@ exports.verifyRefreshToken = (req, res, next) => {
     if (!refreshTokenHeader) {
       console.log('Unable to process Constant [refreshTokenHeader]');
     }
-    const JWT_REFRESH_TOKEN_SECRET = config.JWT_REFRESH_TOKEN_SECRET;
-    if (!JWT_REFRESH_TOKEN_SECRET) {
-      console.log('Unable to process Constant [JWT_REFRESH_TOKEN_SECRET]');
-    }
-    jwt.verify(refreshTokenHeader, JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
-      if (err) {
-        return res.status(401).send({message: 'Unauthorized!'});
+    jwt.verify(
+      refreshTokenHeader,
+      config.JWT_REFRESH_TOKEN_SECRET,
+      (err, payload) => {
+        if (err) {
+          return res.status(401).send({message: 'Unauthorized!'});
+        }
+        req.payload = payload;
+        next();
       }
-      req.payload = payload;
-      next();
-    });
+    );
   } catch (error) {
     console.log(error);
   }

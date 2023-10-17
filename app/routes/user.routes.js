@@ -11,7 +11,7 @@ const isAdmin = [authJwt.verifyAccessToken, authJwt.isAdmin];
 // Define the user-related routes
 router.get('/all', controller.allAccess);
 router.get('/user', verifyAccessToken, controller.userBoard);
-router.get('/mod', isModerator, controller.moderatorBoard);
-router.get('/admin', isAdmin, controller.adminBoard);
+router.get('/mod', verifyAccessToken, isModerator, controller.moderatorBoard);
+router.get('/admin', verifyAccessToken, isAdmin, controller.adminBoard);
 
 module.exports = router;

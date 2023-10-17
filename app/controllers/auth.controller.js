@@ -1,6 +1,4 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const config = require('../config.sample/auth.config');
 const db = require('../models');
 const {SALT_ROUNDS} = require('../constants');
 const {accessToken, refreshToken} = require('../middlewares/auth-jwt');
@@ -94,7 +92,7 @@ exports.signin = async (req, res) => {
 exports.userRefresh = async (req, res) => {
   try {
     if (!req?.payload?.id) {
-      console.log('JWT Refresh Token error : Missing Payload Data');
+      console.error('JWT Refresh Token error : Missing Payload Data');
     }
     // Check if user exist in Collection
     const getUser = await User.findOne({
