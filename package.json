@@ -15,7 +15,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "test:all": "jest",
-    "coverage": "jest -i --coverage"
+    "coverage": "jest -i --coverage",
+    "start": "npm run start:server"
   },
   "repository": {
     "type": "git",
