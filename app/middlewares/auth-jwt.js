@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config.sample/auth.config');
 const {user: User, role: Role} = require('../models/index');
 
-exports.accessToken = async (payloadData) => {
+exports.getAccessToken = async (payloadData) => {
   try {
     const JWT_ACCESS_TOKEN_SECRET = config.JWT_ACCESS_TOKEN_SECRET;
     if (!JWT_ACCESS_TOKEN_SECRET) {
@@ -25,7 +25,7 @@ exports.accessToken = async (payloadData) => {
   }
 };
 
-exports.refreshToken = async (payloadData) => {
+exports.getRefreshToken = async (payloadData) => {
   try {
     const JWT_REFRESH_TOKEN_SECRET = config.JWT_REFRESH_TOKEN_SECRET;
     if (!JWT_REFRESH_TOKEN_SECRET) {

@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const db = require('../models');
 const {SALT_ROUNDS} = require('../constants');
-const {accessToken, refreshToken} = require('../middlewares/auth-jwt');
+const {getRefreshToken, getRefreshToken} = require('../middlewares/auth-jwt');
 
 const User = db.user;
 const Role = db.role;
@@ -70,8 +70,8 @@ exports.signin = async (req, res) => {
         .json({accessToken: null, message: 'Invalid Password!'});
     }
 
-    const access_Token = await accessToken({id: user._id});
-    const refresh_Token = await refreshToken({id: user._id});
+    const accessToken = await getRefreshToken({id: user._id});
+    const refreshToken = await getRefreshToken({id: user._id});
 
     const authorities = user.roles.map(
       (role) => 'ROLE_' + role.name.toUpperCase()
@@ -81,8 +81,8 @@ exports.signin = async (req, res) => {
       username: user.username,
       email: user.email,
       roles: authorities,
-      accessToken: access_Token,
-      refreshToken: refresh_Token,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
   } catch (err) {
     return res.status(500).json({message: err.message});
@@ -101,11 +101,11 @@ exports.userRefresh = async (req, res) => {
     if (!getUser) {
       res.status(500).message('User not found');
     }
-    const access_Token = await accessToken({id: getUser._id});
-    const refresh_Token = await refreshToken({id: getUser._id});
+    const accessToken = await getAccessToken({id: getUser._id});
+    const refreshToken = await getRefreshToken({id: getUser._id});
     return res.status(200).json({
-      accessToken: access_Token,
-      refreshToken: refresh_Token,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
   } catch (error) {
     res.status(500).json({message: error.message});
